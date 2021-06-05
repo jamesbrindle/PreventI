@@ -8,6 +8,8 @@ using System.Threading;
 using System.Diagnostics;
 //for COM add-in
 using System.Reflection;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace PreventI
 {
@@ -20,6 +22,8 @@ namespace PreventI
             DateTime start = DateTime.Now;
             Process[] processlist;
             bool willdelay = false;
+            Random rnd = new Random();
+
             //loop forever
             while (true)
             {
@@ -30,15 +34,20 @@ namespace PreventI
                 if (willdelay == true)
                 {
                     d.delay();
+                    Cursor.Position = new Point(Cursor.Position.X + 2, Cursor.Position.Y + 2);
+                    Thread.Sleep(250);
+                    Cursor.Position = new Point(Cursor.Position.X - 2, Cursor.Position.Y - 2);
+
                     Console.WriteLine("Time delayed at: " + DateTime.Now);
                 }
                 else
                 {
                     Console.WriteLine("Do not delay timer.");
                 }
+
                 Console.WriteLine("Input Timer currently at: " + d.GetLastInputTime());
                 //wait a few seconds
-                System.Threading.Thread.Sleep(10000);
+                System.Threading.Thread.Sleep(rnd.Next(10000, 60000));
                 //reset variable
                 willdelay = false;
             }
